@@ -15,7 +15,9 @@ class ProductResource extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'stock' => $this->stock_quantity,
-            'images' => $this->images,
+            'images' => collect($this->images)->map(function ($path) {
+                return asset('storage/' . $path);
+            }),
             'categories' => $this->whenLoaded('categories', function () {
                 return $this->categories->pluck('name');
             }),
